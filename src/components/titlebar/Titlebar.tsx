@@ -1,7 +1,11 @@
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import styles from './TitleBar.module.scss';
+import { isTauri } from "@tauri-apps/api/core";
 
 export const Titlebar = () => {
+
+  if (!isTauri()) return;
+
   const appWindow = getCurrentWindow();
 
   return (

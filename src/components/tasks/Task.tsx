@@ -1,7 +1,8 @@
 import { useContext } from "react"
-import { ITask } from "../types"
-import { Star } from "./Star"
-import { StarChartContext } from "../providers/StarChartProvider"
+import { ITask } from "../../types/types"
+import { Star } from "../star/Star"
+import { StarChartContext } from "../../providers/StarChartProvider"
+import { EditTask } from "./edit-task/EditTask"
 
 
 type TaskProps = {
@@ -36,12 +37,13 @@ export const Task = ({ task: { taskName, stars } }: TaskProps) => {
   }
   return (
     <>
-      <p>{taskName}</p>
+    <EditTask text={taskName} />
       {
         stars.map((star, i) => (
           <Star key={`${star}-${i}`} state={star} handleOnClick={handleOnClick(i, star)} />
         ))
       }
+      {/* <EditTask /> */}
     </>
   )
 }

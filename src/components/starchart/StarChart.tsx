@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import { StarChartContext } from "../../providers/StarChartProvider";
-import { Task } from "../Task";
+import { Task } from "../tasks/Task";
 import styles from './StarChart.module.scss';
+import { AddTask } from "../tasks/add-task/AddTask";
+import { StarChartContext } from "../../providers/StarChartProvider";
 
 const DAYS_OF_WEEK = ['', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
 
@@ -31,6 +32,7 @@ export const StartChart = () => {
           ))
         }
       </div>
+      <AddTask />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react"
-import { IStarChartContent } from "../types";
+import { IStarChartContent } from "../types/types";
 import { getLocaleStorage, setLocaleStorage } from "../utils/utils";
 
 const INITIAL__TASKS: IStarChartContent['tasks'] = [

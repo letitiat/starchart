@@ -1,0 +1,52 @@
+@import "@radix-ui/colors/orange.css";
+@import "@radix-ui/colors/green.css";
+
+.Editable {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 120px;
+  justify-content: space-between;
+}
+
+.input {
+  // max-width: 100px;
+  text-align: left;
+  padding: 0;
+  width: 100%;
+  border-style: none;
+  padding: 0;
+  box-sizing: border-box;
+  color: grey;
+}
+
+.text {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.pencil {
+  width: 20px;
+  height: 20px;
+
+  &:hover {
+    stroke: var(--orange-10);
+  }
+}
+
+.check {
+  width: 20px;
+  height: 20px;
+
+  &:hover {
+    stroke: var(--green-10);
+  }
+}
+
+.form {
+  width: 100%;
+}

@@ -114,7 +114,14 @@ button {
   }
 }
 
-svg {
-  height: 30px;
-  width: 50px;
+main {
+  display: flex;
+  align-items: center;
+}
+
+/* reset */
+button,
+fieldset,
+input {
+	all: unset;
 }
