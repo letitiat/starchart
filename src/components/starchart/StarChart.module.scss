@@ -1,0 +1,29 @@
+
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(8, 80px);
+  gap: 10px;
+  padding: 20px 0;
+}
+
+.chart {
+  @extend .grid;
+  align-items: center;
+  justify-items: center;
+  position: relative;
+  width: fit-content;
+}
+
+.chart__overlay {
+  @extend .grid;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.chart__daySelected {
+  background-color: rgba(118, 231, 222, 0.2);
+}

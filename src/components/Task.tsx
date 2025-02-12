@@ -35,13 +35,13 @@ export const Task = ({ task: { taskName, stars } }: TaskProps) => {
     })
   }
   return (
-    <div>
+    <>
       <p>{taskName}</p>
       {
         stars.map((star, i) => (
           <Star key={`${star}-${i}`} state={star} handleOnClick={handleOnClick(i, star)} />
         ))
       }
-    </div>
+    </>
   )
 }
