@@ -9,7 +9,7 @@ type TaskProps = {
   task: ITask
 }
 
-export const Task = ({ task: { taskName, stars } }: TaskProps) => {
+export const Task = ({ task: { taskName, days } }: TaskProps) => {
   const {setTasks, tasks} = useContext(StarChartContext)
 
   const handleOnClick = (i: number, star: string) => {
@@ -20,11 +20,11 @@ export const Task = ({ task: { taskName, stars } }: TaskProps) => {
 
       switch (star) {
         case "filled":
-          taskToModify.stars[i] = "unfilled";
+          taskToModify.days[i] = "unfilled";
           break
 
         case "unfilled":
-          taskToModify.stars[i] = "filled";
+          taskToModify.days[i] = "filled";
           break
       }
 
@@ -39,8 +39,8 @@ export const Task = ({ task: { taskName, stars } }: TaskProps) => {
     <>
     <EditTask text={taskName} />
       {
-        stars.map((star, i) => (
-          <Star key={`${star}-${i}`} state={star} handleOnClick={handleOnClick(i, star)} />
+        days.map((day, i) => (
+          <Star key={`${day}-${i}`} state={day} handleOnClick={handleOnClick(i, day)} />
         ))
       }
       {/* <EditTask /> */}

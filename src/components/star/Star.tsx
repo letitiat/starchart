@@ -1,9 +1,9 @@
 import { DisabledIcon, FilledStarIcon, UnfilledStarIcon } from "../../icons"
-import { StarTypes } from "../../types/types";
+import { DayState } from "../../types/types";
 import styles from './Star.module.scss';
 
 type StarProps = {
-  state: StarTypes;
+  state: DayState;
   handleOnClick: () => void
 }
 

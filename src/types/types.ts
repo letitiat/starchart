@@ -1,8 +1,18 @@
-export type StarTypes = "unfilled" | "filled" | "disabled";
+export type DayState = "unfilled" | "filled" | "disabled";
+export type HistoryStatus = "completed" | "failed" | "disabled";
 
 export interface ITask {
   taskName: string,
-  stars: StarTypes[]
+  taskId: string,
+  days: DayState[]
+};
+
+export interface ITaskHistory {
+  date: string,
+  tasks: {
+    task: string,
+    status: HistoryStatus
+  }[]
 };
 
 export interface IStarChartContent {

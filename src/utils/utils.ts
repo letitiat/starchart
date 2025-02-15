@@ -1,4 +1,6 @@
-export const setLocaleStorage = (key: string, item: Record<string, any>) => window.localStorage.setItem(key, JSON.stringify(item))
+export function setLocaleStorage<T>(key: string, item: T) {
+  window.localStorage.setItem(key, JSON.stringify(item))
+}
 
 export const getLocaleStorage = (key: string) => {
   const local = window.localStorage.getItem(key)

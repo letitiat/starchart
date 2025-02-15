@@ -3,13 +3,15 @@ import { useContext, useEffect, useState } from "react";
 import { ITask } from "../../../types/types";
 import { StarChartContext } from "../../../providers/StarChartProvider";
 import { Checkbox } from "../../common/checkbox/Checkbox";
+import { v4 as uuidv4 } from 'uuid';
 import './AddTask.scss'
 
 const DAYS_OF_WEEK = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
 
 const DEFAULT_TASK: ITask = {
   taskName: "",
-  stars: Array.from({ length: 7 }).map(() => "disabled")
+  taskId: '1',
+  days: Array.from({ length: 7 }).map(() => "disabled")
 };
 export const AddTask = () => {
   const { tasks, setTasks } = useContext(StarChartContext);
@@ -19,9 +21,10 @@ export const AddTask = () => {
   const handleCheckboxChange = (mapIndex: number) => {
     setNewTask((prev) => ({
       ...prev,
-      stars: prev.stars.map((star, i) => {
-        if (i !== mapIndex) return star;
-        return star === "unfilled" ? "disabled" : "unfilled"
+      taskId: uuidv4(),
+      days: prev.days.map((day, i) => {
+        if (i !== mapIndex) return day;
+        return day === "unfilled" ? "disabled" : "unfilled"
       })
     }))
   }
@@ -29,7 +32,8 @@ export const AddTask = () => {
   useEffect(() => (
     setNewTask((prev) => ({
       ...prev,
-      stars: prev.stars.map(() => defaultChecked ? "unfilled" : "disabled")
+      taskId: uuidv4(),
+      days: prev.days.map(() => defaultChecked ? "unfilled" : "disabled")
     }))
   ), [defaultChecked]);
 
@@ -43,33 +47,33 @@ export const AddTask = () => {
   }
 
   return (
-      <Modal
-        triggerButtonTitle="Add Task"
-        handleOnClose={handleOnClose}
-        modalTitle="Add A New Task"
-        modalDescription="Add a new task and select the days you want to aim to do the task on.
+    <Modal
+      triggerButtonTitle="Add Task"
+      handleOnClose={handleOnClose}
+      modalTitle="Add A New Task"
+      modalDescription="Add a new task and select the days you want to aim to do the task on.
             For example, if you only go to the gym on M/W/F, only tick those days."
-      >
-        <>
-          <fieldset className="Fieldset">
-            <label className="Label" htmlFor="username">
-              Task Name
-            </label>
-            <input className="Input" id="username" defaultValue="EG: Gym" onChange={(e) => setNewTask((prev) => ({ ...prev, taskName: e.target.value }))} />
-          </fieldset>
+    >
+      <>
+        <fieldset className="Fieldset">
+          <label className="Label" htmlFor="username">
+            Task Name
+          </label>
+          <input className="Input" id="username" defaultValue="EG: Gym" onChange={(e) => setNewTask((prev) => ({ ...prev, taskName: e.target.value }))} />
+        </fieldset>
 
-          <Checkbox checkboxText="Check All Days" defaultChecked={defaultChecked} handleCheckboxChange={(e) => setDefaultChecked(!!e)} />
+        <Checkbox checkboxText="Check All Days" defaultChecked={defaultChecked} handleCheckboxChange={(e) => setDefaultChecked(!!e)} />
 
-          {/* Day of week checkboxes */}
-          <div className="checkbox-group">
-            {
-              DAYS_OF_WEEK.map((day, i) => (
-                <Checkbox defaultChecked={defaultChecked} className="day-checkbox" checkboxText={day} handleCheckboxChange={() => handleCheckboxChange(i)} variant="icon" />
-              ))
-            }
-          </div>
-          {/* End of Day of week checkboxes */}
-        </>
-      </Modal>
+        {/* Day of week checkboxes */}
+        <div className="checkbox-group">
+          {
+            DAYS_OF_WEEK.map((day, i) => (
+              <Checkbox key={`${day}-${i}`} defaultChecked={defaultChecked} className="day-checkbox" checkboxText={day} handleCheckboxChange={() => handleCheckboxChange(i)} variant="icon" />
+            ))
+          }
+        </div>
+        {/* End of Day of week checkboxes */}
+      </>
+    </Modal>
   )
 }
