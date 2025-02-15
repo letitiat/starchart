@@ -29,10 +29,10 @@ export const Modal = ({
         <Dialog.Overlay className={styles.DialogOverlay} />
         <Dialog.Content className={styles.DialogContent}>
           <Dialog.Title className={styles.DialogTitle}>{modalTitle}</Dialog.Title>
-          <Dialog.Description className={styles.DialogDescription}>{modalDescription}</Dialog.Description>
-          
+          <Dialog.Description className={styles.DialogDescription}>
+            {modalDescription}
+          </Dialog.Description>
           {children}
-
           <div
             style={{ display: "flex", marginTop: 25, justifyContent: "flex-end" }}
           >
@@ -41,10 +41,10 @@ export const Modal = ({
             </Dialog.Close>
           </div>
           <Dialog.Close asChild>
-					<button className={styles.IconButton} aria-label="Close">
-						<Cross2Icon />
-					</button>
-				</Dialog.Close>
+            <button className={styles.IconButton} aria-label="Close">
+              <Cross2Icon />
+            </button>
+          </Dialog.Close>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

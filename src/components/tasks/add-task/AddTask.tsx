@@ -1,35 +1,37 @@
-import { Checkbox } from "radix-ui";
-import { CheckIcon } from "@radix-ui/react-icons";
-import './AddTask.scss'
 import { Modal } from "../../common/modal/Modal";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ITask } from "../../../types/types";
 import { StarChartContext } from "../../../providers/StarChartProvider";
+import { Checkbox } from "../../common/checkbox/Checkbox";
+import './AddTask.scss'
 
 const DAYS_OF_WEEK = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
+
 const DEFAULT_TASK: ITask = {
   taskName: "",
   stars: Array.from({ length: 7 }).map(() => "disabled")
 };
-
 export const AddTask = () => {
-
-  const { tasks, setTasks } = useContext(StarChartContext)
-
+  const { tasks, setTasks } = useContext(StarChartContext);
+  const [defaultChecked, setDefaultChecked] = useState(true)
   const [newTask, setNewTask] = useState<ITask>(DEFAULT_TASK);
 
-
   const handleCheckboxChange = (mapIndex: number) => {
-    console.log('nsdsdsdsad')
     setNewTask((prev) => ({
       ...prev,
       stars: prev.stars.map((star, i) => {
         if (i !== mapIndex) return star;
-
         return star === "unfilled" ? "disabled" : "unfilled"
       })
     }))
   }
+
+  useEffect(() => (
+    setNewTask((prev) => ({
+      ...prev,
+      stars: prev.stars.map(() => defaultChecked ? "unfilled" : "disabled")
+    }))
+  ), [defaultChecked]);
 
   const handleOnClose = () => {
     const entryExists = tasks.find(({ taskName }) => taskName === newTask.taskName);
@@ -41,7 +43,6 @@ export const AddTask = () => {
   }
 
   return (
-    <>
       <Modal
         triggerButtonTitle="Add Task"
         handleOnClose={handleOnClose}
@@ -57,28 +58,18 @@ export const AddTask = () => {
             <input className="Input" id="username" defaultValue="EG: Gym" onChange={(e) => setNewTask((prev) => ({ ...prev, taskName: e.target.value }))} />
           </fieldset>
 
+          <Checkbox checkboxText="Check All Days" defaultChecked={defaultChecked} handleCheckboxChange={(e) => setDefaultChecked(!!e)} />
+
           {/* Day of week checkboxes */}
           <div className="checkbox-group">
             {
               DAYS_OF_WEEK.map((day, i) => (
-                <div className="day-checkbox" key={`${day}-${i}`}>
-                  <label className="Label" htmlFor={day}>
-                    {day}
-                  </label>
-                  <Checkbox.Root className="CheckboxRoot" id={day} onCheckedChange={() => handleCheckboxChange(i)}>
-                    <Checkbox.Indicator className="CheckboxIndicator">
-                      <CheckIcon />
-                    </Checkbox.Indicator>
-                  </Checkbox.Root>
-                </div>
+                <Checkbox defaultChecked={defaultChecked} className="day-checkbox" checkboxText={day} handleCheckboxChange={() => handleCheckboxChange(i)} variant="icon" />
               ))
             }
           </div>
-
           {/* End of Day of week checkboxes */}
         </>
       </Modal>
-    </>
-
   )
 }
