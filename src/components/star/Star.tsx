@@ -13,7 +13,7 @@ export const Star = ({state: initialState, handleOnClick}: StarProps) => {
   }
 
    return(
-    initialState === 'filled' ?
+    initialState === 'selected' ?
         <FilledStarIcon onClick={handleOnClick} className={styles.svg}/> :
         <UnfilledStarIcon onClick={handleOnClick} className={styles.svg} />
         )

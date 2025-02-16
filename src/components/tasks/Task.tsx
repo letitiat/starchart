@@ -19,12 +19,12 @@ export const Task = ({ task: { taskName, days } }: TaskProps) => {
       if (!taskToModify) return;
 
       switch (star) {
-        case "filled":
-          taskToModify.days[i] = "unfilled";
+        case "selected":
+          taskToModify.days[i] = "enabled";
           break
 
-        case "unfilled":
-          taskToModify.days[i] = "filled";
+        case "enabled":
+          taskToModify.days[i] = "selected";
           break
       }
 

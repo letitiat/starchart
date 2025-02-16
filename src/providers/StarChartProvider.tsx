@@ -8,12 +8,12 @@ const INITIAL__TASKS: IStarChartContent['tasks'] = [
   {
     taskName: 'Gym',
     taskId: '1',
-    days: ["unfilled", "disabled", "filled", "filled", "unfilled", "filled", "unfilled"],
+    days: ["enabled", "disabled", "selected", "selected", "enabled", "selected", "enabled"],
   },
   {
     taskName: 'Food',
     taskId: '2',
-    days: ["unfilled", "filled", "filled", "filled", "disabled", "filled", "filled"]
+    days: ["enabled", "selected", "selected", "selected", "disabled", "selected", "selected"]
   }
 ]
 

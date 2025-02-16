@@ -1,20 +1,19 @@
 
 import { DayState, HistoryStatus, ITask, ITaskHistory } from "../types/types";
-import { v4 as uuidv4 } from 'uuid';
 import dayjs from "../utils/dayjs";
 
 const historyStatus: Record<DayState, HistoryStatus> = {
   disabled: 'disabled',
-  unfilled: 'failed',
-  filled: 'completed',
+  enabled: 'skipped',
+  selected: 'completed',
 }
 
 /**
  * Gets the history status corresponding to the given DayState.
- * @param status The current status of the day (e.g., 'disabled', 'unfilled', 'filled').
+ * @param status The current status of the day (e.g., 'disabled', 'enabled', 'selected').
  * @returns The corresponding history status.
  */
-const getHistoryStatus = (status: DayState): HistoryStatus => historyStatus[status] || historyStatus.unfilled;
+const getHistoryStatus = (status: DayState): HistoryStatus => historyStatus[status] || historyStatus.enabled;
 
 export const taskService = {
   /**
@@ -35,7 +34,7 @@ export const taskService = {
       date,
       tasks: tasks.map((task) => ({
         task: task.taskName,
-        status: getHistoryStatus(task.days[i] || 'unfilled')
+        status: getHistoryStatus(task.days[i] || 'enabled')
       }))
     }))
 
@@ -49,34 +48,32 @@ export const taskService = {
     */
   toggleTaskDaysToUncheckedState: (tasks: ITask[]) => tasks.map((task) => ({
     ...task,
-    days: task.days.map((status) => status === 'filled' ? 'unfilled' : status)
+    days: task.days.map((status) => status === 'selected' ? 'enabled' : status)
   })),
 
   /**
-     * Resets the task days to disabled or unfilled status, depending on the current status of the given day.
+     * Resets the task day at specific index to disabled or enabled status, depending on the current status of the given day.
      * @param task The task to modify.
      * @param mapIndex The index of the day in the task's days array to toggle.
-     * @returns A new task with the specified day toggled between 'unfilled' and 'disabled'.
+     * @returns A new task with the specified day toggled between 'enabled' and 'disabled'.
      */
-  toggleTaskDaysToDisabledState: (task: ITask, mapIndex: number) => ({
+  toggleTaskDayAtIndex: (task: ITask, mapIndex: number) => ({
     ...task,
-    taskId: uuidv4(),
     days: task.days.map((day, i) => {
       if (i !== mapIndex) return day;
-      return day === "unfilled" ? "disabled" : "unfilled"
+      return day === "enabled" ? "disabled" : "enabled"
     })
   }),
 
   /**
-   * Toggles the task days between disabled and unfilled based on the given defaultChecked flag.
+   * Toggles the task days between disabled and enabled based on the given defaultChecked flag.
    * @param task The task to modify.
-   * @param defaultChecked The flag to determine the initial state of the task days (true = unfilled, false = disabled).
-   * @returns A new task with all days set to either 'unfilled' or 'disabled', based on the defaultChecked flag.
+   * @param initialState The flag to determine the initial state of the task days (true = enabled, false = disabled).
+   * @returns A new task with all days set to either 'enabled' or 'disabled', based on the defaultChecked flag.
    */
-  toggleTaskDaysDefaultState: (task: ITask, defaultChecked: boolean) => ({
+  toggleTaskDaysDefaultState: (task: ITask, initialState: boolean) => ({
     ...task,
-    taskId: uuidv4(),
-    days: task.days.map(() => defaultChecked ? "unfilled" : "disabled")
+    days: task.days.map(() => initialState ? "enabled" : "disabled")
   }),
 
   /**

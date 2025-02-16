@@ -1,33 +1,43 @@
 import { Modal } from "../../common/modal/Modal";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ITask } from "../../../types/types";
 import { StarChartContext } from "../../../providers/StarChartProvider";
 import { Checkbox } from "../../common/checkbox/Checkbox";
 import { taskService } from "../../../services/taskService";
+import { v4 as uuidv4 } from 'uuid';
 import './AddTask.scss'
 
 const DAYS_OF_WEEK = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
 
 const DEFAULT_TASK: ITask = {
   taskName: "",
-  taskId: '1',
-  days: Array.from({ length: 7 }).map(() => "disabled")
+  taskId: uuidv4(),
+  days: Array.from({ length: 7 }).map(() => "enabled")
 };
 export const AddTask = () => {
   const { tasks, setTasks } = useContext(StarChartContext);
-  const [defaultChecked, setDefaultChecked] = useState(true)
+  const [allDaysChecked, setAllDaysChecked] = useState(true)
   const [newTask, setNewTask] = useState<ITask>(DEFAULT_TASK);
 
   const handleCheckboxChange = (mapIndex: number) => {
-    setNewTask((prev) => taskService.toggleTaskDaysToDisabledState(prev, mapIndex))
+    setNewTask((prev) => {
+      const updatedTask = taskService.toggleTaskDayAtIndex(prev, mapIndex);
+
+      const allSelected = updatedTask.days.every((day) => day === "enabled");
+      setAllDaysChecked(allSelected);
+
+      return updatedTask;
+    })
   }
 
-  useEffect(() => (
-    // if defaultChecked changes, we want to update default value of task
-    setNewTask((prev) => taskService.toggleTaskDaysDefaultState(prev, defaultChecked))
-  ), [defaultChecked]);
+  const handleCheckAll = () => {
+    setAllDaysChecked((prev) => !prev);
+    setNewTask((prev) => taskService.toggleTaskDaysDefaultState(prev, !allDaysChecked))
+  }
 
   const handleOnClose = () => {
+    if (!newTask.taskName.trim()) return;
+
     const entryExists = tasks.find(({ taskName }) => taskName === newTask.taskName);
 
     if (newTask.taskName && !entryExists) {
@@ -52,13 +62,20 @@ export const AddTask = () => {
           <input className="Input" id="username" defaultValue="EG: Gym" onChange={(e) => setNewTask((prev) => ({ ...prev, taskName: e.target.value }))} />
         </fieldset>
 
-        <Checkbox checkboxText="Check All Days" defaultChecked={defaultChecked} handleCheckboxChange={(e) => setDefaultChecked(!!e)} />
+        <Checkbox checkboxText="Check All Days" defaultChecked={allDaysChecked} handleCheckboxChange={handleCheckAll} />
 
         {/* Day of week checkboxes */}
         <div className="checkbox-group">
           {
             DAYS_OF_WEEK.map((day, i) => (
-              <Checkbox key={`${day}-${i}`} defaultChecked={defaultChecked} className="day-checkbox" checkboxText={day} handleCheckboxChange={() => handleCheckboxChange(i)} variant="icon" />
+              <Checkbox
+                key={`${day}-${i}`}
+                defaultChecked={newTask.days[i] === 'enabled'}
+                className="day-checkbox"
+                checkboxText={day}
+                handleCheckboxChange={() => handleCheckboxChange(i)}
+                variant="icon"
+              />
             ))
           }
         </div>
