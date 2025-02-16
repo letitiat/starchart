@@ -16,15 +16,15 @@ jobs:
       - name: Run Tests with Coverage
         run: pnpm test:ci --coverage
 
-      - name: Debug Coverage Files
-        run: |
-          ls -R coverage || echo "Coverage directory not found"
-          cat coverage/coverage-summary.json || echo "coverage-summary.json not found"
-
       - name: Extract Coverage Percentage
         run: |
           COVERAGE=$(node -pe "require('$(pwd)/coverage/coverage-summary.json').total.lines.pct")
           echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
+
+      - name: Create coverage badge
+        run: |
+          COLOR=$(node -e "console.log($COVERAGE > 80 ? 'green' : $COVERAGE > 50 ? 'yellow' : 'red')")
+          curl -o coverage-badge.svg "https://img.shields.io/badge/Coverage-${COVERAGE}%25-${COLOR}"
 
       - name: Commit and Push Badge
         run: |
