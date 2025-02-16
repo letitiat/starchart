@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { ITask } from "../../../types/types";
 import { StarChartContext } from "../../../providers/StarChartProvider";
 import { Checkbox } from "../../common/checkbox/Checkbox";
-import { v4 as uuidv4 } from 'uuid';
+import { taskService } from "../../../services/taskService";
 import './AddTask.scss'
 
 const DAYS_OF_WEEK = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
@@ -19,22 +19,12 @@ export const AddTask = () => {
   const [newTask, setNewTask] = useState<ITask>(DEFAULT_TASK);
 
   const handleCheckboxChange = (mapIndex: number) => {
-    setNewTask((prev) => ({
-      ...prev,
-      taskId: uuidv4(),
-      days: prev.days.map((day, i) => {
-        if (i !== mapIndex) return day;
-        return day === "unfilled" ? "disabled" : "unfilled"
-      })
-    }))
+    setNewTask((prev) => taskService.toggleTaskDaysToDisabledState(prev, mapIndex))
   }
 
   useEffect(() => (
-    setNewTask((prev) => ({
-      ...prev,
-      taskId: uuidv4(),
-      days: prev.days.map(() => defaultChecked ? "unfilled" : "disabled")
-    }))
+    // if defaultChecked changes, we want to update default value of task
+    setNewTask((prev) => taskService.toggleTaskDaysDefaultState(prev, defaultChecked))
   ), [defaultChecked]);
 
   const handleOnClose = () => {
