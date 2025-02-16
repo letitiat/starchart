@@ -24,7 +24,7 @@ describe('taskService', () => {
 
       const history = [
         {
-          "date": "17/02/2025",
+          "date": "10/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -33,7 +33,7 @@ describe('taskService', () => {
           ],
         },
         {
-          "date": "18/02/2025",
+          "date": "11/02/2025",
           "tasks": [
             {
               "status": "disabled",
@@ -42,7 +42,7 @@ describe('taskService', () => {
           ],
         },
         {
-          "date": "19/02/2025",
+          "date": "12/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -51,7 +51,7 @@ describe('taskService', () => {
           ],
         },
         {
-          "date": "20/02/2025",
+          "date": "13/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -60,7 +60,7 @@ describe('taskService', () => {
           ],
         },
         {
-          "date": "21/02/2025",
+          "date": "14/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -69,7 +69,7 @@ describe('taskService', () => {
           ],
         },
         {
-          "date": "22/02/2025",
+          "date": "15/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -78,7 +78,7 @@ describe('taskService', () => {
           ],
         },
         {
-          "date": "23/02/2025",
+          "date": "16/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -88,7 +88,7 @@ describe('taskService', () => {
         },
       ]
 
-      const lastSeen = dayjs();
+      const lastSeen = dayjs("2025-02-16T23:59:59.057Z");
 
       const result = taskService.generateTaskHistory(lastSeen, tasks)
       expect(result).toEqual(history)
@@ -99,36 +99,36 @@ describe('taskService', () => {
 
       const history = [
         {
-          "date": "17/02/2025",
+          "date": "10/02/2025",
           "tasks": [],
         },
         {
-          "date": "18/02/2025",
+          "date": "11/02/2025",
           "tasks": [],
         },
         {
-          "date": "19/02/2025",
+          "date": "12/02/2025",
           "tasks": [],
         },
         {
-          "date": "20/02/2025",
+          "date": "13/02/2025",
           "tasks": [],
         },
         {
-          "date": "21/02/2025",
+          "date": "14/02/2025",
           "tasks": [],
         },
         {
-          "date": "22/02/2025",
+          "date": "15/02/2025",
           "tasks": [],
         },
         {
-          "date": "23/02/2025",
+          "date": "16/02/2025",
           "tasks": [],
         },
       ]
 
-      const lastSeen = dayjs();
+      const lastSeen = dayjs("2025-02-16T23:59:59.057Z");
 
       const result = taskService.generateTaskHistory(lastSeen, tasks)
       expect(result).toEqual(history)
@@ -139,7 +139,7 @@ describe('taskService', () => {
 
       const history = [
         {
-          "date": "17/02/2025",
+          "date": "10/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -148,7 +148,7 @@ describe('taskService', () => {
           ],
         },
         {
-          "date": "18/02/2025",
+          "date": "11/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -157,7 +157,7 @@ describe('taskService', () => {
           ],
         },
         {
-          "date": "19/02/2025",
+          "date": "12/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -166,7 +166,7 @@ describe('taskService', () => {
           ],
         },
         {
-          "date": "20/02/2025",
+          "date": "13/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -175,7 +175,7 @@ describe('taskService', () => {
           ],
         },
         {
-          "date": "21/02/2025",
+          "date": "14/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -184,7 +184,7 @@ describe('taskService', () => {
           ],
         },
         {
-          "date": "22/02/2025",
+          "date": "15/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -193,7 +193,7 @@ describe('taskService', () => {
           ],
         },
         {
-          "date": "23/02/2025",
+          "date": "16/02/2025",
           "tasks": [
             {
               "status": "failed",
@@ -203,7 +203,7 @@ describe('taskService', () => {
         },
       ];
 
-      const result = taskService.generateTaskHistory(dayjs(), tasks);
+      const result = taskService.generateTaskHistory(dayjs("2025-02-16T23:59:59.057Z"), tasks);
       expect(result).toEqual(history);
     })
 
