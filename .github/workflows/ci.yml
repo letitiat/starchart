@@ -32,10 +32,13 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          
+
+          # Create a new branch from the PR branch
+          git checkout -b coverage-badge-${{ github.head_ref }}
+
           # Add the coverage badge file
           git add coverage-badge.svg
           git commit -m "Update coverage badge" || echo "No changes to commit"
           
-          # Push the updated badge to the branch of the PR using github.head_ref
-          git push origin ${{ github.head_ref }}
+          # Push the updated badge to the same branch that the PR is using
+          git push origin coverage-badge-${{ github.head_ref }}:refs/heads/${{ github.head_ref }}
