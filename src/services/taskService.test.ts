@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { getHistoryStatus, taskService } from './taskService'
+import { taskService } from './taskService'
 import { describe } from 'node:test'
 import dayjs from 'dayjs'
 import { ITask } from '../types/types'

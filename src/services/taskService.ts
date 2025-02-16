@@ -14,7 +14,7 @@ const historyStatus: Record<DayState, HistoryStatus> = {
  * @param status The current status of the day (e.g., 'disabled', 'unfilled', 'filled').
  * @returns The corresponding history status.
  */
-const getHistoryStatus = (status: DayState): HistoryStatus => historyStatus[status] || historyStatus.filled;
+const getHistoryStatus = (status: DayState): HistoryStatus => historyStatus[status] || historyStatus.unfilled;
 
 export const taskService = {
   /**
@@ -27,8 +27,7 @@ export const taskService = {
     lastSeen: dayjs.Dayjs,
     tasks: ITask[]
   ) => {
-    const lastSeenWeekStart = dayjs(lastSeen).startOf('week').add(1, 'day');
-
+    const lastSeenWeekStart = dayjs(lastSeen).isoWeekday(1).startOf('day');
     const daysToMapOver: { date: string }[] = Array.from({ length: 7 }, (_, i) =>
       ({ date: lastSeenWeekStart.add(i, 'day').format('DD/MM/YYYY') }));
 
@@ -36,7 +35,7 @@ export const taskService = {
       date,
       tasks: tasks.map((task) => ({
         task: task.taskName,
-        status: getHistoryStatus(task.days[i])
+        status: getHistoryStatus(task.days[i] || 'unfilled')
       }))
     }))
 
