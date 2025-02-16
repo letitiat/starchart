@@ -26,9 +26,9 @@ export const StarChartProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (lastSeen) {
-      const lastSeenWeekEnd = dayjs(lastSeen).endOf('week').add(1, 'day');
+      const lastSeenWeekEnd = dayjs(lastSeen).isoWeekday(7).endOf('day');
 
-      if (dayjs().isBefore(lastSeenWeekEnd)) {
+      if (dayjs().isAfter(lastSeenWeekEnd)) {
         // it's been over a week, save what we have and get rid of the last
         const newHistory = taskService.generateTaskHistory(lastSeen, tasks);
         
