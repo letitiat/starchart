@@ -1,5 +1,5 @@
-export type DayState = "unfilled" | "filled" | "disabled";
-export type HistoryStatus = "completed" | "failed" | "disabled";
+export type DayState = "enabled" | "selected" | "disabled";
+export type HistoryStatus = "completed" | "skipped" | "disabled";
 
 export interface ITask {
   taskName: string,

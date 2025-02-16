@@ -1,31 +1,21 @@
-import { createContext, ReactNode, useEffect, useState } from "react"
-import { DayState, HistoryStatus, IStarChartContent, ITask, ITaskHistory } from "../types/types";
+import { createContext, ReactNode, useEffect } from "react"
+import { IStarChartContent, ITask, ITaskHistory } from "../types/types";
 import dayjs from "../utils/dayjs";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
+import { taskService } from "../services/taskService";
 
 const INITIAL__TASKS: IStarChartContent['tasks'] = [
   {
     taskName: 'Gym',
     taskId: '1',
-    days: ["unfilled", "disabled", "filled", "filled", "unfilled", "filled", "unfilled"],
+    days: ["enabled", "disabled", "selected", "selected", "enabled", "selected", "enabled"],
   },
   {
     taskName: 'Food',
     taskId: '2',
-    days: ["unfilled", "filled", "filled", "filled", "disabled", "filled", "filled"]
+    days: ["enabled", "selected", "selected", "selected", "disabled", "selected", "selected"]
   }
 ]
-
-const getHistoryStatus = (status: DayState): HistoryStatus => {
-  switch (status) {
-    case 'disabled':
-      return status;
-    case 'unfilled':
-      return 'failed';
-    default:
-      return 'completed'
-  }
-}
 
 export const StarChartContext = createContext<IStarChartContent>({ tasks: INITIAL__TASKS, setTasks: () => { } });
 
@@ -36,33 +26,18 @@ export const StarChartProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (lastSeen) {
-      const lastSeenWeekStart = dayjs(lastSeen).startOf('week').add(1, 'day');
-      const lastSeenWeekEnd = dayjs(lastSeen).endOf('week').add(1, 'day');
+      const lastSeenWeekEnd = dayjs(lastSeen).isoWeekday(7).endOf('day');
 
       if (dayjs().isAfter(lastSeenWeekEnd)) {
         // it's been over a week, save what we have and get rid of the last
-        const daysToMapOver: { date: string }[] = Array.from({ length: 7 }, (_, i) =>
-          ({ date: lastSeenWeekStart.add(i, 'day').format('DD/MM/YYYY') }));
-
-        const newHistory: ITaskHistory[] = daysToMapOver.map(({ date }, i) => ({
-          date,
-          tasks: tasks.map((task) => ({
-            task: task.taskName,
-            status: getHistoryStatus(task.days[i])
-          }))
-        }))
-
+        const newHistory = taskService.generateTaskHistory(lastSeen, tasks);
+        
         setHistory(newHistory)
-        setTasks((prev) => prev.map((task) => ({
-          ...task,
-          days: task.days.map((status) => (
-            status === 'filled' ? 'unfilled' : status
-          ))
-        })))
+        setTasks((prev) => taskService.toggleTaskDaysToUncheckedState(prev))
         setLastSeen(dayjs())
       }
     }
-  }, [])
+  }, []) // do we want dependencies?
 
   return (
     <StarChartContext.Provider value={{ tasks: tasks, setTasks: setTasks }}>
