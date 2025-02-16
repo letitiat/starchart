@@ -38,4 +38,4 @@ jobs:
           git commit -m "Update coverage badge" || echo "No changes to commit"
           
           # Push the updated badge to the same branch that the PR is using
-          git push origin HEAD
+          git push
