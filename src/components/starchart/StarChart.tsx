@@ -3,14 +3,15 @@ import { Task } from "../tasks/Task";
 import styles from './StarChart.module.scss';
 import { AddTask } from "../tasks/add-task/AddTask";
 import { StarChartContext } from "../../providers/StarChartProvider";
+import { getCurrentDayOfWeek } from './../../utils/dayjs';
 
 const DAYS_OF_WEEK = ['', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
 
 export const StartChart = () => {
 
     const { tasks } = useContext(StarChartContext);
-    const currentDay = new Date().getDay();
-  
+    const currentDay = getCurrentDayOfWeek();
+
   return (
     <div className="starchart-container">
       <h1>Silly Little Motivation Chart</h1>

@@ -3,7 +3,7 @@ import { ITask } from "../../types/types"
 import { Star } from "../star/Star"
 import { StarChartContext } from "../../providers/StarChartProvider"
 import { EditTask } from "./edit-task/EditTask"
-
+import { triggerTaskCompletionConfetti } from "../../animations/taskCompletionConfetti"
 
 type TaskProps = {
   task: ITask
@@ -13,7 +13,7 @@ export const Task = ({ task: { taskName, days } }: TaskProps) => {
   const {setTasks, tasks} = useContext(StarChartContext)
 
   const handleOnClick = (i: number, star: string) => {
-    return (() => {
+    return ((e: React.MouseEvent) => {
       let taskToModify = tasks.find(({ taskName: name }) => name === taskName);
 
       if (!taskToModify) return;
@@ -26,6 +26,14 @@ export const Task = ({ task: { taskName, days } }: TaskProps) => {
         case "enabled":
           taskToModify.days[i] = "selected";
           break
+      }
+
+      // If, after this step, we can't find any enabled days left in our days, it means the task
+      // is 'completed' for this week
+      const daysLeftToComplete = (taskToModify.days.filter((day) => day === "enabled"));
+
+      if (!daysLeftToComplete.length) {
+        triggerTaskCompletionConfetti(e.clientX, e.clientY);
       }
 
       setTasks((prev: ITask[]) =>

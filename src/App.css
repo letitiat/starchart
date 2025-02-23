@@ -125,3 +125,7 @@ fieldset,
 input {
 	all: unset;
 }
+
+* {
+  user-select: none;
+}

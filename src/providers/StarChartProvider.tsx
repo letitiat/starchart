@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect } from "react"
 import { IStarChartContent, ITask, ITaskHistory } from "../types/types";
-import dayjs from "../utils/dayjs";
+import dayjs, { getEndOfWeek } from "../utils/dayjs";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 import { taskService } from "../services/taskService";
 
@@ -26,7 +26,7 @@ export const StarChartProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (lastSeen) {
-      const lastSeenWeekEnd = dayjs(lastSeen).isoWeekday(7).endOf('day');
+      const lastSeenWeekEnd = getEndOfWeek(lastSeen);
 
       if (dayjs().isAfter(lastSeenWeekEnd)) {
         // it's been over a week, save what we have and get rid of the last
@@ -34,8 +34,8 @@ export const StarChartProvider = ({ children }: { children: ReactNode }) => {
         
         setHistory(newHistory)
         setTasks((prev) => taskService.toggleTaskDaysToUncheckedState(prev))
-        setLastSeen(dayjs())
       }
+      setLastSeen(dayjs())
     }
   }, []) // do we want dependencies?
 

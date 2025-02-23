@@ -1,6 +1,6 @@
 
 import { DayState, HistoryStatus, ITask, ITaskHistory } from "../types/types";
-import dayjs from "../utils/dayjs";
+import dayjs, { getStartOfWeek } from "../utils/dayjs";
 
 const historyStatus: Record<DayState, HistoryStatus> = {
   disabled: 'disabled',
@@ -26,7 +26,8 @@ export const taskService = {
     lastSeen: dayjs.Dayjs,
     tasks: ITask[]
   ) => {
-    const lastSeenWeekStart = dayjs(lastSeen).isoWeekday(1).startOf('day');
+    const lastSeenWeekStart = getStartOfWeek(lastSeen);
+
     const daysToMapOver: { date: string }[] = Array.from({ length: 7 }, (_, i) =>
       ({ date: lastSeenWeekStart.add(i, 'day').format('DD/MM/YYYY') }));
 

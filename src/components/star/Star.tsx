@@ -4,7 +4,7 @@ import styles from './Star.module.scss';
 
 type StarProps = {
   state: DayState;
-  handleOnClick: () => void
+  handleOnClick: (e: React.MouseEvent) => void
 }
 
 export const Star = ({state: initialState, handleOnClick}: StarProps) => {
