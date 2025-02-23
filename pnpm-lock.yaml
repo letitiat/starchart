@@ -20,6 +20,9 @@ importers:
       '@tauri-apps/plugin-opener':
         specifier: ^2
         version: 2.2.5
+      canvas-confetti:
+        specifier: ^1.9.3
+        version: 1.9.3
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
@@ -39,6 +42,9 @@ importers:
       '@tauri-apps/cli':
         specifier: ^2
         version: 2.2.7
+      '@types/canvas-confetti':
+        specifier: ^1.9.0
+        version: 1.9.0
       '@types/react':
         specifier: ^18.3.1
         version: 18.3.18
@@ -1177,6 +1183,9 @@ packages:
   '@types/babel__traverse@7.20.6':
     resolution: {integrity: sha512-r1bzfrm0tomOI8g1SzvCaQHo6Lcv6zu0EA+W2kHrt8dyrHQxGzBBL4kdkzIS+jBMV+EYcMAEAqXqYaLJq5rOZg==}
 
+  '@types/canvas-confetti@1.9.0':
+    resolution: {integrity: sha512-aBGj/dULrimR1XDZLtG9JwxX1b4HPRF6CX9Yfwh3NvstZEm1ZL7RBnel4keCPSqs1ANRu1u2Aoz9R+VmtjYuTg==}
+
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
@@ -1276,6 +1285,9 @@ packages:
 
   caniuse-lite@1.0.30001696:
     resolution: {integrity: sha512-pDCPkvzfa39ehJtJ+OwGT/2yvT2SbjfHhiIW2LWOAcMQ7BzwxT/XuyUp4OTOd0XFWA6BKw0JalnBHgSi5DGJBQ==}
+
+  canvas-confetti@1.9.3:
+    resolution: {integrity: sha512-rFfTURMvmVEX1gyXFgn5QMn81bYk70qa0HLzcIOSVEyl57n6o9ItHeBtUSWdvKAPY0xlvBHno4/v3QPrT83q9g==}
 
   chai@5.2.0:
     resolution: {integrity: sha512-mCuXncKXk5iCLhfhwTc0izo0gtEmpz5CtG2y8GiOINBlMVS6v8TMRc5TaLWKS6692m9+dVVfzgeVxR5UxWHTYw==}
@@ -2832,6 +2844,8 @@ snapshots:
     dependencies:
       '@babel/types': 7.26.7
 
+  '@types/canvas-confetti@1.9.0': {}
+
   '@types/estree@1.0.6': {}
 
   '@types/prop-types@15.7.14': {}
@@ -2946,6 +2960,8 @@ snapshots:
   cac@6.7.14: {}
 
   caniuse-lite@1.0.30001696: {}
+
+  canvas-confetti@1.9.3: {}
 
   chai@5.2.0:
     dependencies:
