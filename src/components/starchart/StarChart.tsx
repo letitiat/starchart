@@ -30,7 +30,7 @@ export const StartChart = () => {
         ))}
         {
           tasks.map((task) => (
-            <Task task={task} key={task.taskName} />
+            <Task task={task} key={task.taskId} />
           ))
         }
       </div>

@@ -4,6 +4,7 @@ import { Star } from "../star/Star"
 import { StarChartContext } from "../../providers/StarChartProvider"
 import { EditTask } from "./edit-task/EditTask"
 import { triggerTaskCompletionConfetti } from "../../animations/taskCompletionConfetti"
+import { taskService } from "../../services/taskService"
 
 type TaskProps = {
   task: ITask
@@ -30,11 +31,12 @@ export const Task = ({ task: { taskName, days } }: TaskProps) => {
 
       // If, after this step, we can't find any enabled days left in our days, it means the task
       // is 'completed' for this week
-      const daysLeftToComplete = (taskToModify.days.filter((day) => day === "enabled"));
-
-      if (!daysLeftToComplete.length) {
-        setShowStats(true)
+      if (!taskService.getEnabledDaysLeftOfTaskCount(taskToModify)) {
         triggerTaskCompletionConfetti(e.clientX, e.clientY);
+
+        if (!taskService.getEnabledDaysLeftForAllTasksCount(tasks)) {
+          setShowStats(true)
+        }
       }
 
       setTasks((prev: ITask[]) =>
@@ -49,10 +51,9 @@ export const Task = ({ task: { taskName, days } }: TaskProps) => {
     <EditTask text={taskName} />
       {
         days.map((day, i) => (
-          <Star key={`${day}-${i}`} state={day} handleOnClick={handleOnClick(i, day)} />
+          <Star key={`${taskName}-${day}-${i}`} state={day} handleOnClick={handleOnClick(i, day)} />
         ))
       }
-      {/* <EditTask /> */}
     </>
   )
 }

@@ -41,7 +41,11 @@ export const AddTask = () => {
     const entryExists = tasks.find(({ taskName }) => taskName === newTask.taskName);
 
     if (newTask.taskName && !entryExists) {
-      setTasks((prev) => [...prev, newTask])
+      setTasks((prev) => [...prev, {
+        ...newTask,
+        taskId: uuidv4(),
+        days: [...newTask.days],
+      }]),
       setNewTask(DEFAULT_TASK)
     }
   }

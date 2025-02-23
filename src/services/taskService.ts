@@ -133,5 +133,21 @@ export const taskService = {
     const eligibleStars = taskService.getEligibleStarCount(task);
     const achievedStars = taskService.getAchievedStarCount(task);
     return achievedStars / eligibleStars * 100;
-  }
+  },
+
+  /**
+   * Gets enabled task count for task. This is a count of how many days left could be completed. 0 would be a complete task for that week..
+   * @param task The task to count.
+   * @returns The number of tasks left to be 'completed'.
+   */
+  getEnabledDaysLeftOfTaskCount: (task: ITask) => task.days.filter((day) => day === "enabled").length,
+
+  /**
+ * Gets enabled days left task count for all tasks across the week.
+ * @param task The task to count.
+ * @returns The number of tasks left to be 'completed'.
+ */
+  getEnabledDaysLeftForAllTasksCount: (tasks: ITask[]) => tasks
+    .map((task) => taskService.getEnabledDaysLeftOfTaskCount(task))
+    .reduce((sum, num) => sum + num)
 };
