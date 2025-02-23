@@ -42,10 +42,10 @@ jobs:
           # Fetch the latest changes from the remote
           git fetch origin
       
-          # Merge remote changes into the current branch (this may create a merge conflict)
-          git merge origin/${{ github.head_ref }} --no-edit || echo "Merge conflict or no updates"
+          # Pull the latest changes from the remote branch, ensuring a proper merge
+          git pull origin ${{ github.head_ref }} --rebase
       
-          # Commit the changes (including the badge and merge result)
+          # Commit the changes (including the badge and any merged content)
           git commit -m "Update coverage badge" || echo "No changes to commit"
       
           # Push the updated badge to the PR branch dynamically
