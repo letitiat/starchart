@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect } from "react"
+import { createContext, ReactNode, useEffect, useState } from "react"
 import { IStarChartContent, ITask, ITaskHistory } from "../types/types";
 import dayjs, { getEndOfWeek } from "../utils/dayjs";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
@@ -17,18 +17,24 @@ const INITIAL__TASKS: IStarChartContent['tasks'] = [
   }
 ]
 
-export const StarChartContext = createContext<IStarChartContent>({ tasks: INITIAL__TASKS, setTasks: () => { } });
+export const StarChartContext = createContext<IStarChartContent>({
+  tasks: INITIAL__TASKS,
+  setTasks: () => { },
+  showStats: false,
+  setShowStats: () => {}
+});
 
 export const StarChartProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, setTasks] = useLocalStorageState<ITask[]>('INITIAL_TASKS', INITIAL__TASKS)
   const [lastSeen, setLastSeen] = useLocalStorageState<dayjs.Dayjs>('LAST_SEEN', dayjs())
   const [_, setHistory] = useLocalStorageState<ITaskHistory[]>('TASK_HISTORY');
-
+  const [showStats, setShowStats] = useState(false)
   useEffect(() => {
     if (lastSeen) {
       const lastSeenWeekEnd = getEndOfWeek(lastSeen);
 
       if (dayjs().isAfter(lastSeenWeekEnd)) {
+        setShowStats(true)
         // it's been over a week, save what we have and get rid of the last
         const newHistory = taskService.generateTaskHistory(lastSeen, tasks);
         
@@ -40,7 +46,7 @@ export const StarChartProvider = ({ children }: { children: ReactNode }) => {
   }, []) // do we want dependencies?
 
   return (
-    <StarChartContext.Provider value={{ tasks: tasks, setTasks: setTasks }}>
+    <StarChartContext.Provider value={{ tasks: tasks, setTasks: setTasks, showStats: showStats, setShowStats: setShowStats }}>
       {children}
     </StarChartContext.Provider>
   )

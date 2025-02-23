@@ -90,5 +90,48 @@ export const taskService = {
    * @param task The task to modify.
    * @returns A modified task with the new task name.
    */
-  updateTaskName: (task: ITask, taskName: string) => ({ ...task, taskName: taskName })
+  updateTaskName: (task: ITask, taskName: string) => ({ ...task, taskName: taskName }),
+
+  /**
+  * Gets count of total non-disabled star count for a single task.
+  * @param task The task to count.
+  * @returns The number of selectable stars.
+  */
+  getEligibleStarCount: (task: ITask) => task.days.filter((day) => day !== 'disabled').length,
+
+  /**
+  * Gets count of total non-disabled star count for all tasks.
+  * @param tasks The tasks to count.
+  * @returns The number of selectable stars.
+  */
+  getEligibleWeeklyStarCount: (tasks: ITask[]) => tasks
+    .map((task) => taskService.getEligibleStarCount(task))
+    .reduce((sum, num) => sum + num),
+
+  /**
+   * Gets count of total selected/achieved star count for a single task.
+   * @param task The task to count.
+   * @returns The number of selected/achieved stars.
+   */
+  getAchievedStarCount: (task: ITask) => task.days.filter((day) => day === 'selected').length,
+
+  /**
+ * Gets count of total selected/achieved star count for all tasks.
+ * @param tasks The tasks to count.
+ * @returns The number of selected/achieved stars.
+ */
+  getAchievedWeeklyStarCount: (tasks: ITask[]) => tasks
+    .map((task) => taskService.getAchievedStarCount(task))
+    .reduce((sum, num) => sum + num),
+
+  /**
+ * Gets task completion percentage for a task.
+ * @param task The task to count.
+ * @returns The percentage stat achieved.
+ */
+  getTaskCompletionPercentage: (task: ITask) => {
+    const eligibleStars = taskService.getEligibleStarCount(task);
+    const achievedStars = taskService.getAchievedStarCount(task);
+    return achievedStars / eligibleStars * 100;
+  }
 };

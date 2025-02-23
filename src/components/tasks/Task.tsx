@@ -10,7 +10,7 @@ type TaskProps = {
 }
 
 export const Task = ({ task: { taskName, days } }: TaskProps) => {
-  const {setTasks, tasks} = useContext(StarChartContext)
+  const {setTasks, tasks, setShowStats} = useContext(StarChartContext)
 
   const handleOnClick = (i: number, star: string) => {
     return ((e: React.MouseEvent) => {
@@ -33,6 +33,7 @@ export const Task = ({ task: { taskName, days } }: TaskProps) => {
       const daysLeftToComplete = (taskToModify.days.filter((day) => day === "enabled"));
 
       if (!daysLeftToComplete.length) {
+        setShowStats(true)
         triggerTaskCompletionConfetti(e.clientX, e.clientY);
       }
 

@@ -4,12 +4,13 @@ import { Button } from "../button/Button";
 import { Cross2Icon } from "@radix-ui/react-icons";
 
 type ModalProps = {
-  triggerButtonTitle: string,
   modalTitle: string,
-  modalDescription: string,
   children: JSX.Element,
   handleOnClose: () => void,
+  modalDescription?: string,
+  triggerButtonTitle?: string,
   saveButton?: string,
+  isOpen?: boolean,
 }
 
 export const Modal = ({
@@ -18,27 +19,41 @@ export const Modal = ({
   modalDescription,
   children,
   handleOnClose,
-  saveButton = 'Add Task',
+  saveButton,
+  isOpen = false,
 }: ModalProps) => {
+
   return (
-    <Dialog.Root>
-      <Dialog.Trigger asChild>
-        <Button variant="primary">{triggerButtonTitle}</Button>
-      </Dialog.Trigger>
+    <Dialog.Root defaultOpen={isOpen} onOpenChange={handleOnClose}>
+      {
+        triggerButtonTitle && (
+          <Dialog.Trigger asChild>
+            <Button variant="primary">{triggerButtonTitle}</Button>
+          </Dialog.Trigger>
+        )
+      }
       <Dialog.Portal>
         <Dialog.Overlay className={styles.DialogOverlay} />
         <Dialog.Content className={styles.DialogContent}>
           <Dialog.Title className={styles.DialogTitle}>{modalTitle}</Dialog.Title>
-          <Dialog.Description className={styles.DialogDescription}>
-            {modalDescription}
-          </Dialog.Description>
+          {
+            modalDescription && (
+              <Dialog.Description className={styles.DialogDescription}>
+                {modalDescription}
+              </Dialog.Description>
+            )
+          }
           {children}
           <div
             style={{ display: "flex", marginTop: 25, justifyContent: "flex-end" }}
           >
-            <Dialog.Close asChild onClick={handleOnClose}>
-              <Button variant="secondary" >{saveButton}</Button>
-            </Dialog.Close>
+            {
+              saveButton && (
+                <Dialog.Close asChild onClick={handleOnClose}>
+                  <Button variant="secondary" >{saveButton}</Button>
+                </Dialog.Close>
+              )
+            }
           </div>
           <Dialog.Close asChild>
             <button className={styles.IconButton} aria-label="Close">

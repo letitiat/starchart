@@ -17,5 +17,7 @@ export interface ITaskHistory {
 
 export interface IStarChartContent {
   tasks: ITask[],
-  setTasks: (task: ITask[] | ((prev: ITask[]) => ITask[])) => void;
+  setTasks: (task: ITask[] | ((prev: ITask[]) => ITask[])) => void,
+  showStats: boolean,
+  setShowStats: (showStats: boolean) => void;
 }

@@ -30,9 +30,10 @@
 
 .DialogTitle {
 	margin: 0;
-	font-weight: 500;
-	color: var(--mauve-12);
-	font-size: 17px;
+	font-weight: 600;
+	color: var(--violet-11);
+	font-size: 24px;
+  text-align: center;
 }
 
 .DialogDescription {
@@ -56,6 +57,7 @@
 	top: 10px;
 	right: 10px;
 	background-color: var(--gray-3);
+  cursor: pointer;
 
   &:hover {
     background-color: var(--violet-4);

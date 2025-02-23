@@ -51,6 +51,7 @@ export const AddTask = () => {
       triggerButtonTitle="Add Task"
       handleOnClose={handleOnClose}
       modalTitle="Add A New Task"
+      saveButton="Add Task"
       modalDescription="Add a new task and select the days you want to aim to do the task on.
             For example, if you only go to the gym on M/W/F, only tick those days."
     >

@@ -4,12 +4,13 @@ import styles from './StarChart.module.scss';
 import { AddTask } from "../tasks/add-task/AddTask";
 import { StarChartContext } from "../../providers/StarChartProvider";
 import { getCurrentDayOfWeek } from './../../utils/dayjs';
+import { StatsModal } from "../stats/StatsModal";
 
 const DAYS_OF_WEEK = ['', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
 
 export const StartChart = () => {
 
-    const { tasks } = useContext(StarChartContext);
+    const { tasks, showStats } = useContext(StarChartContext);
     const currentDay = getCurrentDayOfWeek();
 
   return (
@@ -34,6 +35,9 @@ export const StartChart = () => {
         }
       </div>
       <AddTask />
+      {showStats && (
+        <StatsModal />
+      )}
     </div>
   );
 }
