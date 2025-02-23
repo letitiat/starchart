@@ -35,10 +35,7 @@ jobs:
       
           # Checkout to the temporary branch created earlier
           git checkout -b coverage-badge-${{ github.head_ref }}
-      
-          # Ensure there are no unstaged changes
-          git reset --hard
-      
+            
           # Pull latest changes from the PR branch dynamically
           git pull origin ${{ github.head_ref }} --rebase
       
